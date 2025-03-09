@@ -37,6 +37,7 @@ def main():
                 
         ## screen.fill(color=(0, 0, 0))  alternate way of filling the screen with black
         screen.fill("black")
+        player1.update(dt)  # update the player object
         player1.draw(screen) # draw the player object on the screen
         pygame.display.flip()
         clock.tick(FPS)  # limit the frame rate to 60 frames per second
