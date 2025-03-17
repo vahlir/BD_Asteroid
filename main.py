@@ -1,6 +1,3 @@
-# this allows us to use code from
-# the open-source pygame library
-# throughout this file
 import pygame 
 from constants import *
 from player import Player
@@ -25,8 +22,8 @@ def main():
     # Set Player's containers BEFORE creating any Player instances
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
-    asteroids = pygame.sprite.Group()  # ✅ Group for all asteroids
-    shots_group = pygame.sprite.Group()   # ✅ Group for all shots
+    asteroids = pygame.sprite.Group()  #  Group for all asteroids
+    shots_group = pygame.sprite.Group()   #  Group for all shots
 
     Player.containers = (updatable, drawable) # set the containers for the Player class
     Asteroid.containers = (asteroids, updatable, drawable)
@@ -37,39 +34,29 @@ def main():
     asteroid_field = AsteroidField() # create an asteroid field object
 
     #asteroid_group = pygame.sprite.Group()  # create a group to hold the asteroids
-
-
-
-    '''
-    bullet_group = pygame.sprite.Group()  # create a group to hold the bullets
-    score = 0  # initialize the score variable
-    font = pygame.font.Font(None, 36)  # create a font object to render text
-    spawn_time = 0  # initialize the spawn time variable
-    game_over = False  # initialize the game over variable'''
-    running=True
+    running = True
     while running: 
 
-        '''for event in pygame.event.get():   old format
-            if event.type == pygame.QUIT:
-                pygame.quit() 
-'''
+     
         for event in pygame.event.get(): 
             if event.type == pygame.QUIT:
-                running = False  # ✅ Properly exit game loop suggested format
+                running = False  #  Exit the game loop
 
-
-                
-        ## screen.fill(color=(0, 0, 0))  alternate way of filling the screen with black
         screen.fill("black")
-        #player1.update(dt)  # update the player object
-        #player1.draw(screen) # draw the player object on the screen
+
         updatable.update(dt)  # Updates all objects in the 'updatable' group
 
         for asteroid in asteroids:
-            if player1.check_collisions(asteroid):  # ✅ Check collision
+            if player1.check_collisions(asteroid):  #  Check collision
                 print("Game over!") 
                 pygame.quit()
-                exit()  # ✅ Exit the game immediately
+                exit()  #  Exit the game immediately
+            for shot in shots_group:
+                if asteroid.check_collisions(shot):   #  Collision detected
+                    #print("Asteroid hit!")  #  Debugging
+                    #asteroid.kill()  #  Remove asteroid (before split() was added)
+                    asteroid.split()  #  Now calls .split() instead of .kill()
+                    shot.kill()  #  Remove bullet
         
         for obj in drawable:  # Loops over 'drawable' objects and draws them
             obj.draw(screen)
@@ -81,7 +68,7 @@ def main():
          
 
     
-    print("Starting Asteroids!")
+    #print("Starting Asteroids!")
     #print(f"Screen width: {SCREEN_WIDTH}")
     #print(f"Screen height: {SCREEN_HEIGHT}")
 
