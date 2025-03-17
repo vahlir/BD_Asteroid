@@ -4,6 +4,10 @@
 import pygame 
 from constants import *
 from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
+from shot import Shot
+
 
 
 
@@ -21,8 +25,16 @@ def main():
     # Set Player's containers BEFORE creating any Player instances
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()  # ✅ Group for all asteroids
+    shots_group = pygame.sprite.Group()   # ✅ Group for all shots
+
     Player.containers = (updatable, drawable) # set the containers for the Player class
+    Asteroid.containers = (asteroids, updatable, drawable)
+    AsteroidField.containers = (updatable,)
+    Shot.containers = (shots_group, updatable, drawable)
+    
     player1 = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)  # create a player object
+    asteroid_field = AsteroidField() # create an asteroid field object
 
     #asteroid_group = pygame.sprite.Group()  # create a group to hold the asteroids
 
@@ -34,12 +46,17 @@ def main():
     font = pygame.font.Font(None, 36)  # create a font object to render text
     spawn_time = 0  # initialize the spawn time variable
     game_over = False  # initialize the game over variable'''
+    running=True
+    while running: 
 
-    while True: 
-
-        for event in pygame.event.get():
+        '''for event in pygame.event.get():   old format
             if event.type == pygame.QUIT:
                 pygame.quit() 
+'''
+        for event in pygame.event.get(): 
+            if event.type == pygame.QUIT:
+                running = False  # ✅ Properly exit game loop suggested format
+
 
                 
         ## screen.fill(color=(0, 0, 0))  alternate way of filling the screen with black
@@ -48,20 +65,25 @@ def main():
         #player1.draw(screen) # draw the player object on the screen
         updatable.update(dt)  # Updates all objects in the 'updatable' group
 
+        for asteroid in asteroids:
+            if player1.check_collisions(asteroid):  # ✅ Check collision
+                print("Game over!") 
+                pygame.quit()
+                exit()  # ✅ Exit the game immediately
+        
         for obj in drawable:  # Loops over 'drawable' objects and draws them
             obj.draw(screen)
         
         
         pygame.display.flip()
-        dt = clock.tick(60) / 1000  # limit the frame rate to 60 frames per second
+        dt = clock.tick(FPS) / 1000  # limit the frame rate to 60 frames per second
 
-        #clock.tick(FPS)  # limit the frame rate to 60 frames per second
-        # dt = clock.get_time() / 1000  # convert milliseconds to seconds store in dt
+         
 
     
     print("Starting Asteroids!")
-    print(f"Screen width: {SCREEN_WIDTH}")
-    print(f"Screen height: {SCREEN_HEIGHT}")
+    #print(f"Screen width: {SCREEN_WIDTH}")
+    #print(f"Screen height: {SCREEN_HEIGHT}")
 
 if __name__ == "__main__":
     main()

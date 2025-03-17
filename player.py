@@ -1,7 +1,7 @@
 import pygame
 from constants import *
 from circleshape import CircleShape  # import the CircleShape class from circleshape.py file
-
+from shot import Shot  # import the Shot class from shot.py file
 
 
 
@@ -54,3 +54,26 @@ class Player(CircleShape):
             self.move(dt)
         if keys[pygame.K_s]:
             self.move(-dt)
+        #if keys[pygame.K_SPACE]:
+        #    self.shoot()
+
+        # Inside your main loop or the Player's update method
+        if keys[pygame.K_SPACE]:    
+            print("Spacebar pressed!")  # ✅ Debugging
+            self.shoot()
+
+
+
+
+    def shoot(self):
+        print("Shooting!")  # ✅ Debugging
+        shot = Shot(self.position.x, self.position.y)  # create a shot object
+        shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED  # set the velocity of the shot
+
+        
+
+
+
+        #shot_group.add(shot)  # add the shot to the shot group
+        #self.last_shot = pygame.time.get_ticks()  # set the time of the last shot
+        #self.shoot_sound.play()  # play the shoot sound 
