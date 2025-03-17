@@ -45,7 +45,7 @@ class Player(CircleShape):
         if keys[pygame.K_s]:
             self.move(-dt)
         if keys[pygame.K_SPACE]:    
-            #print("Spacebar pressed!")  # ✅ Debugging
+            #print("Spacebar pressed!")  #  Debugging
             if self.shot_timer <= 0:
                 self.shoot()    
 
