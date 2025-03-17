@@ -14,12 +14,10 @@ class Shot(CircleShape):
 
     def update(self, dt):
         self.position += self.velocity * dt  # ✅ Move in a straight line   
-        print(f"Shot moving to {self.position.x}, {self.position.y}")  # ✅ Debugging
+        #print(f"Shot moving to {self.position.x}, {self.position.y}")  # ✅ Debugging
 
     def draw(self, screen):
-        #pygame.draw.circle(screen, "white", (self.x, self.y), self.radius, 2)  incorrect
-        print(f"Drawing shot at {self.position.x}, {self.position.y}")  # ✅ Debugging
-
+        #print(f"Drawing shot at {self.position.x}, {self.position.y}")  # ✅ Debugging
         pygame.draw.circle(screen, "white", (self.position.x, self.position.y), self.radius, 2)
 
     def rotate(self, dt):

@@ -10,6 +10,7 @@ class Player(CircleShape):
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
+        self.shot_timer = 0
         
         '''
         self.thrust = 0
@@ -20,8 +21,8 @@ class Player(CircleShape):
         self.last_shot = 0 # time of the last shot 
         '''
 
-    def update(self, dt):
-        pass
+
+        
 
     # in the player class
     def triangle(self): 
@@ -44,6 +45,8 @@ class Player(CircleShape):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * dt
     def update(self, dt):
+
+        self.shot_timer -= dt # decrement the shot timer
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_d]:
@@ -59,8 +62,9 @@ class Player(CircleShape):
 
         # Inside your main loop or the Player's update method
         if keys[pygame.K_SPACE]:    
-            print("Spacebar pressed!")  # ✅ Debugging
-            self.shoot()
+            #print("Spacebar pressed!")  # ✅ Debugging
+            if self.shot_timer <= 0:
+                self.shoot()    
 
 
 
@@ -69,7 +73,7 @@ class Player(CircleShape):
         print("Shooting!")  # ✅ Debugging
         shot = Shot(self.position.x, self.position.y)  # create a shot object
         shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED  # set the velocity of the shot
-
+        self.shot_timer = PLAYER_SHOOT_COOLDOWN
         
 
 
